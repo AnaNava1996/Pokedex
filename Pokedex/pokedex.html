@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<title>Pokedex</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<body>
+
+		<div class="w3-container w3-teal">
+			<h1><img src="/pokeball.svg.png" style="width:5%">Pokedex</h1>
+		</div>
+		<br/>
+
+		<!--CONTENEDOR CON EL BUSCADOR Y EL RESULTADO-->
+		<div class="w3-container">
+			<div class="w3-row">
+				<!--BUSCADOR-->
+				<div class="w3-card-4 w3-quarter">
+					<div class="w3-container w3-teal">
+						<h2>Buscador</h2>
+					</div>
+					<div class="w3-container">
+						<p>
+						<label class="w3-text-teal"><b># Numero en la pokedex</b></label>
+						<input id="numero" class="w3-input w3-border w3-light-gray" name="id_del_pokemon" type="text"></p>
+						<p>
+						<label class="w3-text-teal"><b>Nombre del pokemon</b></label>
+						<input id="nombre" class="w3-input w3-border w3-light-gray" name="nombre_del_pokemon" type="text"></p>
+						<p>
+						<button id="search" value="submit" class="w3-btn w3-teal" onclick="loadPokemon()">SEARCH</button></p>
+					</div>
+				</div>
+				<!--RESULTADO-->
+				<table class="w3-twothird w3-striped w3-padding w3-centered">
+					<tr class="w3-light-gray">
+						<th>Pokemon</th>
+						<th>#</th>
+						<th>Type</th>
+						<th>Image</th>
+					</tr>
+					<tr>
+						<td><p id="pokename"></p></td>
+						<td><p id="pokenum"></p></td>
+						<td><p id="poketype"></p></td>
+						<td><img id="pokeimg"/> </td>
+					</tr>
+				</table>
+			</div>
+			<br/>
+			<p>Introduce un numero o nombre a buscar en la pokedex</p>
+		</div>
+
+
+
+		<!--PIE DE PAGINA-->
+		<div class="w3-container w3-teal">
+			<p>bla bla bla bla bla bla bla bla bla bla bla</p>
+		</div>
+	</body>
+
+	<script>
+	 function loadPokemon() {
+
+			 name=document.getElementById("nombre").value;
+
+			 var xhttp = new XMLHttpRequest();
+			 xhttp.onreadystatechange = function() {
+					 if (this.readyState == 4 && this.status == 200) {
+							 console.log(this.responseText);
+							 poke=JSON.parse(this.responseText);
+
+							 document.getElementById("pokeimg").src = poke.sprites.front_default;
+							 document.getElementById("pokenum").innerHTML = poke.id;
+							 document.getElementById("pokename").innerHTML = poke.name;
+							 document.getElementById("poketype").innerHTML = poke.types[0].type.name;
+
+					 }
+			 };
+			 xhttp.open("GET", "/pokemon?nombre_del_pokemon="+name, true);
+			 xhttp.send();
+	 }
+	</script>
+
+</html>
